@@ -1,0 +1,171 @@
+import pandas as pd
+import numpy as np
+df = pd.DataFrame({"name": ['Alfred', 'Batman', 'Catwoman'],
+                   "toy": [np.nan, 'Batmobile', 'Bullwhip'],
+                   "born": [pd.NaT, pd.Timestamp("1940-04-25"),
+                            pd.NaT]})
+
+df
+
+type(df.dropna())
+
+df.dropna(axis=1)
+
+df
+
+print(np.__version__)
+
+df.dropna(subset=["born"],axis=1)
+
+df.dropna()
+
+np.nan
+
+df2 = pd.DataFrame({"cars":["Ferrari","BMW","Lamborgini","Ford"],
+                    "wt": [309,np.nan,400,350],
+                   "mpg":[100,120,np.nan,np.nan],
+                   "price":[5000,8000,np.nan,12000]})
+df_cars=df2
+df_cars
+
+df_cars.rename(columns={"cars":"model"},inplace=True)
+df_cars
+
+df_cars.dropna(inplace=True)
+df_cars["mpg"] = df_cars["mpg"].astype("int64")
+df_cars
+
+df_cars = df_cars.append({"model":"BMW","wt":501,"mpg":120,"price":8000},ignore_index=True)
+
+df_cars
+
+df_cars = df_cars.append({"model":"Lamborgini","wt":400,"mpg":180,"price":10000},ignore_index=True)
+
+df_cars = df_cars.append({"model":"Ford","wt":350,"mpg":130,"price":8500},ignore_index=True)
+
+df_cars
+
+bins = np.linspace(df_cars["price"].min(),df_cars["price"].max(),4)
+
+bins
+
+bins = np.linspace(min(df_cars["mpg"]),max(df_cars["mpg"]),4)
+
+group_names = ["low","medium","high"]
+
+df_binned = pd.cut(df_cars["mpg"],bins,labels= group_names,include_lowest = True)
+
+df_binned
+
+df_binned
+
+pd.get_dummies?
+
+df1 = df_cars
+
+pd.get_dummies(df1["model"])
+
+df_cars
+
+df1
+
+pd.get_dummies(df1["model"])
+
+df1.describe()
+
+df1.value_counts()
+
+drive = ["forward-wheel","rear-wheel","rear-wheel","forward-wheel"]
+df1["drive"] = drive
+
+df1
+
+pd.get_dummies(df1["drive"])
+
+df1["drive"].value_counts()
+
+df_grp = df1.groupby(["drive","mpg"],as_index=False).mean()
+
+import pandas as pd
+df1 = pd.DataFrame({"cars":["Ferrari","BMW","Lamborgini","Ford"],
+                    "wt": [309,500,400,350],
+                   "mpg":[100,120,230,350],
+                   "price":[5000,8000,10000,12000],
+                   "drive":["forward-wheel","rear-wheel","rear-wheel","forward-wheel"]})
+
+df1
+
+df_test = df1[["drive","mpg","price"]]
+df_grp = df_test.groupby(["drive","mpg"],as_index=False).mean()
+
+df_grp
+
+# importing pandas module
+import pandas as pd
+
+# Define a dictionary containing employee data
+data1 = {'Name':['Jai', 'Anuj', 'Jai', 'Princi',
+				'Gaurav', 'Anuj', 'Princi', 'Abhi'],
+		'Age':[27, 24, 22, 32,
+			33, 36, 27, 32],
+		'Address':['Nagpur', 'Kanpur', 'Allahabad', 'Kannuaj',
+				'Jaunpur', 'Kanpur', 'Allahabad', 'Aligarh'],
+		'Qualification':['Msc', 'MA', 'MCA', 'Phd',
+						'B.Tech', 'B.com', 'Msc', 'MA']}
+	
+
+# Convert the dictionary into DataFrame
+df = pd.DataFrame(data1)
+
+print(df)
+
+
+# using groupby function
+# with one key
+
+df.groupby('Name')
+print(df.groupby('Name').groups)
+
+
+
+print(df.groupby(['Name', 'Qualification']).groups)
+
+df = pd.DataFrame({'Animal': ['Falcon', 'Falcon',
+                              'Parrot', 'Parrot'],
+                   'Max Speed': [380., 370., 24., 26.]})
+
+df.groupby(['Animal'],as_index=False).mean()
+
+df.groupby(['Animal'],as_index=True).mean() 
+#For aggregated output, return object with group labels as the index. 
+
+df.groupby(['Animal']).mean() 
+
+df.groupby(['Animal']).sum() 
+
+df.groupby(['Animal']).groups 
+
+df1
+
+from scipy import stats
+pearson_corr, p_value = stats.pearsonr(df1["mpg"],df1["price"])
+
+pearson_corr
+
+p_value < 0.001
+
+type(stats.pearsonr(df1["mpg"],df1["price"]))
+
+stats.pearsonr(df1["wt"],df1["price"])
+
+0.8594181265884099<0.1
+
+import matplotlib.pyplot as plt
+import pandas as pd
+import seaborn as sb
+
+dataplot = sb.heatmap(df1.corr(), cmap="YlGnBu", annot=True)
+  
+# displaying heatmap
+plt.show()
+
